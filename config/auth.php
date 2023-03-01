@@ -112,4 +112,9 @@ return [
 
     'password_timeout' => 10800,
 
+    'role' => [
+        'admin' => 'Administrator',
+        'user' => 'User',
+    ],
+
 ];

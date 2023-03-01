@@ -21,13 +21,18 @@ Route::middleware(['auth:sanctum'])->get('/user', function (Request $request) {
 });
 
 Route::get('/companies', [CompanyController::class, 'index']);
-Route::post('/companies', [CompanyController::class, 'store']);
+Route::group(['middleware' => ['role:admin']], function () {
+    Route::post('/companies', [CompanyController::class, 'store']);
+    Route::put('/companies/{id}', [CompanyController::class, 'update']);
+    Route::delete('/companies/{id}', [CompanyController::class, 'destroy']);
+});
 Route::get('/companies/{id}', [CompanyController::class, 'show']);
-Route::put('/companies/{id}', [CompanyController::class, 'update']);
-Route::delete('/companies/{id}', [CompanyController::class, 'destroy']);
 
 Route::get('/games', [GameController::class, 'index']);
-Route::post('/games', [GameController::class, 'store']);
+Route::group(['middleware' => ['auth']], function () {
+    Route::post('/games', [GameController::class, 'store']);
+    Route::put('/games/{game}', [GameController::class, 'update']);
+    Route::delete('/games/{game}', [GameController::class, 'destroy']);
+});
 Route::get('/games/{game}', [GameController::class, 'show']);
-Route::put('/games/{game}', [GameController::class, 'update']);
-Route::delete('/games/{game}', [GameController::class, 'destroy']);
+

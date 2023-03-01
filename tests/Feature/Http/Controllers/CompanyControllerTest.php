@@ -3,6 +3,7 @@
 namespace Tests\Feature\Http\Controllers;
 
 use App\Models\Company;
+use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Http\Response;
 use Tests\TestCase;
@@ -10,6 +11,15 @@ use Tests\TestCase;
 class CompanyControllerTest extends TestCase
 {
     use RefreshDatabase;
+
+    private User $adminUser;
+
+    protected function setUp(): void
+    {
+        parent::setUp();
+
+        $this->adminUser = $this->createUser([User::ROLE_ADMIN]);
+    }
 
     public function test_index(): void
     {
@@ -26,7 +36,9 @@ class CompanyControllerTest extends TestCase
     {
         $companyData = Company::factory()->make()->toArray();
 
-        $response = $this->post('/api/companies', $companyData);
+        $response = $this
+            ->actingAs($this->adminUser)
+            ->post('/api/companies', $companyData);
 
         $response->assertStatus(Response::HTTP_CREATED);
 
@@ -55,7 +67,9 @@ class CompanyControllerTest extends TestCase
             ->make()
             ->toArray();
 
-        $response = $this->put('/api/companies/' . $company->id, $companyData);
+        $response = $this
+            ->actingAs($this->adminUser)
+            ->put('/api/companies/' . $company->id, $companyData);
 
         $response->assertStatus(Response::HTTP_OK);
 
@@ -66,7 +80,9 @@ class CompanyControllerTest extends TestCase
     {
         $company = Company::factory()->create();
 
-        $response = $this->delete('/api/companies/' . $company->id);
+        $response = $this
+            ->actingAs($this->adminUser)
+            ->delete('/api/companies/' . $company->id);
 
         $response->assertStatus(Response::HTTP_NO_CONTENT);
 
