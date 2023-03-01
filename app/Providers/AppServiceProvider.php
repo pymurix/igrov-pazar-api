@@ -2,11 +2,8 @@
 
 namespace App\Providers;
 
-use App\QueryFilters\Filterable;
-use App\QueryFilters\Sortable;
 use App\Services\GameService;
 use App\Services\Implementations\GameServiceImplementation;
-use Illuminate\Database\Query\Builder;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -21,6 +18,8 @@ class AppServiceProvider extends ServiceProvider
                 GameService::class,
                 GameServiceImplementation::class
             );
+
+        $this->app->register(QueryBuilderMacroServiceProvider::class);
     }
 
     /**
@@ -28,12 +27,5 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        Builder::macro('filterable', function (array $filters = [], $freeLike = false) {
-            return Filterable::filter($this, $filters);
-        });
-
-        Builder::macro('sortable', function (array $filters = []) {
-            return Sortable::sort($this, $filters);
-        });
     }
 }
