@@ -4,7 +4,7 @@ namespace App\QueryFilters;
 
 use Illuminate\Database\Query\Builder as QueryBuilder;
 
-class Filterable
+class Filter
 {
     public static function filter(QueryBuilder $query, array $filters = []): QueryBuilder
     {

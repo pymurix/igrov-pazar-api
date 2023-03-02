@@ -2,7 +2,7 @@
 
 namespace Tests\Unit\QueryFilters;
 
-use App\QueryFilters\Filterable;
+use App\QueryFilters\Filter;
 use Illuminate\Database\Connection;
 use Illuminate\Database\Query\Builder;
 use PHPUnit\Framework\TestCase;
@@ -26,7 +26,7 @@ class FilterTest extends TestCase
             ]
         ];
 
-        $filteredQueryBuilder = Filterable::filter($queryBuilder, $filters);
+        $filteredQueryBuilder = Filter::filter($queryBuilder, $filters);
 
         $this->assertEquals($expectedQueryBuilder->toSql(), $filteredQueryBuilder->toSql());
         $this->assertEquals($expectedQueryBuilder->getBindings(), $filteredQueryBuilder->getBindings());
@@ -37,7 +37,7 @@ class FilterTest extends TestCase
         $queryBuilder = new Builder(new Connection(['driver' => 'sqlite']));
         $expectedQueryBuilder = clone $queryBuilder;
 
-        $filteredQueryBuilder = Filterable::filter($queryBuilder, []);
+        $filteredQueryBuilder = Filter::filter($queryBuilder, []);
 
         $this->assertEquals($expectedQueryBuilder->toSql(), $filteredQueryBuilder->toSql());
         $this->assertEquals($expectedQueryBuilder->getBindings(), $filteredQueryBuilder->getBindings());
@@ -54,7 +54,7 @@ class FilterTest extends TestCase
             'name' => 'Murphy'
         ];
 
-        $filteredQueryBuilder = Filterable::filter($queryBuilder, $filters);
+        $filteredQueryBuilder = Filter::filter($queryBuilder, $filters);
 
         $this->assertEquals($expectedQueryBuilder->toSql(), $filteredQueryBuilder->toSql());
         $this->assertEquals($expectedQueryBuilder->getBindings(), $filteredQueryBuilder->getBindings());
