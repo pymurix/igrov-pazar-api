@@ -3,7 +3,7 @@
 namespace App\Providers;
 
 use App\QueryFilters\Filterable;
-use App\QueryFilters\Sortable;
+use App\QueryFilters\Sort;
 use Illuminate\Database\Query\Builder;
 use Illuminate\Support\ServiceProvider;
 
@@ -27,7 +27,7 @@ class QueryBuilderMacroServiceProvider extends ServiceProvider
         });
 
         Builder::macro('sortable', function (array $filters = []) {
-            return Sortable::sort($this, $filters);
+            return Sort::sort($this, $filters);
         });
     }
 }

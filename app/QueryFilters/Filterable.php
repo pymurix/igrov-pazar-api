@@ -3,17 +3,22 @@
 namespace App\QueryFilters;
 
 use Illuminate\Database\Query\Builder as QueryBuilder;
+
 class Filterable
 {
-    public static function filter(QueryBuilder $query, array $filters = [], $freeLike = false): QueryBuilder
+    public static function filter(QueryBuilder $query, array $filters = []): QueryBuilder
     {
         foreach ($filters as $column => $filter) {
-            foreach ($filter as $operator => $value) {
-                $query->where(
-                    $column,
-                    $operator,
-                    $freeLike ? $value : '%' . $value . '%'
-                );
+            if (is_array($filter)) {
+                foreach ($filter as $operator => $value) {
+                    $query->where(
+                        $column,
+                        $operator,
+                        $value,
+                    );
+                }
+            } else {
+                $query->where($column, $filter);
             }
         }
 

@@ -9,9 +9,6 @@ class GameServiceImplementation implements GameService
 {
     public function isGameBelongsToUser(Game $game, int $userId): bool
     {
-        if ($game->user_id === $userId) {
-            return true;
-        }
-        return false;
+        return $game->user_id === $userId;
     }
 }

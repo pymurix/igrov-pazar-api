@@ -14,6 +14,7 @@ abstract class TestCase extends BaseTestCase
         /** @var User $user */
         $user = User::factory()->create();
         $user->assignRole($roles);
+        $user->givePermissionTo($permissions);
         return $user;
     }
 }

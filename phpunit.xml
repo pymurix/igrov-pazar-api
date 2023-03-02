@@ -13,6 +13,16 @@
         </testsuite>
     </testsuites>
     <coverage>
+        <exclude>
+            <file>./app/Console/Kernel.php</file>
+            <file>./app/Http/Kernel.php</file>
+            <file>./app/Http/Requests/Auth/LoginRequest.php</file>
+            <directory suffix=".php">./app/Models</directory>
+            <directory suffix=".php">./app/Http/Middleware</directory>
+            <directory suffix=".php">./app/Http/Controllers/Auth</directory>
+            <directory suffix=".php">./app/Providers</directory>
+            <directory suffix=".php">./app/Exceptions</directory>
+        </exclude>
         <include>
             <directory suffix=".php">./app</directory>
         </include>

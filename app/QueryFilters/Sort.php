@@ -4,7 +4,7 @@ namespace App\QueryFilters;
 
 use Illuminate\Database\Query\Builder as QueryBuilder;
 
-class Sortable
+class Sort
 {
     public static function sort(QueryBuilder $query, array $sorts = []): QueryBuilder
     {
