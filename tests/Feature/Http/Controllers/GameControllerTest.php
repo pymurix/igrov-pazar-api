@@ -18,7 +18,7 @@ class GameControllerTest extends TestCase
     {
         parent::setUp();
 
-        $this->user = User::factory()->create();
+        $this->user = $this->createUser();
     }
 
     public function test_it_can_list_games()
@@ -39,7 +39,6 @@ class GameControllerTest extends TestCase
     {
         $data = Game::factory()->make(
             [
-                'company_id' => Company::factory()->create()->id,
                 'user_id' => $this->user->id,
             ]
         );
@@ -51,7 +50,7 @@ class GameControllerTest extends TestCase
             ->assertStatus(201)
             ->assertJsonFragment($data->toArray());
         $this->assertDatabaseHas('games',
-            $data->toArray() + ['user_id' => $this->user->id]
+            $data->toArray()
         );
     }
 
@@ -63,14 +62,7 @@ class GameControllerTest extends TestCase
 
         $response
             ->assertStatus(200)
-            ->assertJsonFragment([
-                'id' => $game->id,
-                'name' => $game->name,
-                'description' => $game->description,
-                'price' => $game->price,
-                'platform' => $game->platform,
-                'company_id' => $game->company_id,
-            ]);
+            ->assertJsonFragment($game->toArray());
     }
 
     public function test_it_can_update_a_game()
@@ -103,6 +95,19 @@ class GameControllerTest extends TestCase
 
         $response->assertStatus(204);
         $this->assertDatabaseMissing('games', [
+            'id' => $game->id,
+        ]);
+    }
+
+    public function test_it_cant_delete_game_that_dont_belong_to_user()
+    {
+        $game = Game::factory()->create();
+
+        $response = $this->actingAs($this->user)
+            ->deleteJson('/api/games/' . $game->id);
+
+        $response->assertStatus(403);
+        $this->assertDatabaseHas('games', [
             'id' => $game->id,
         ]);
     }
