@@ -22,9 +22,7 @@ class GamePolicyTest extends TestCase
 
     public function test_write_return_true_when_user_is_admin()
     {
-        $user = Mockery::mock(User::class);
-        $user->shouldReceive('hasRole')
-            ->andReturn(true);
+        $user = $this->mockUserHasRole([], true);
         $game = new Game(['user_id' => 123]);
 
         $result = $this->gamePolicy->write($user, $game);
@@ -34,11 +32,7 @@ class GamePolicyTest extends TestCase
 
     public function test_write_return_true_when_game_belong_to_user()
     {
-        $user = new User();
-        $user->id = 123;
-        $user = Mockery::mock($user);
-        $user->shouldReceive('hasRole')
-            ->andReturn(false);
+        $user = $this->mockUserHasRole(['id' => 123],  false);
         $game = new Game(['user_id' => 123]);
 
         $result = $this->gamePolicy->write($user, $game);
@@ -48,16 +42,23 @@ class GamePolicyTest extends TestCase
 
     public function test_write_return_false_when_game_dont_belong_to_user()
     {
-        $user = new User();
-        $user->id = 145;
-        $user = Mockery::mock($user);
-        $user->shouldReceive('hasRole')
-            ->andReturn(false);
+        $user = $this->mockUserHasRole(['id' => 145], false);
         $game = new Game(['user_id' => 123]);
 
         $result = $this->gamePolicy->write($user, $game);
 
         $this->assertFalse($result);
+    }
+
+    private function mockUserHasRole(array $userData, bool $hasRoleReturn): User
+    {
+        $user = new User();
+        $user->forceFill($userData);
+        $user = Mockery::mock($user);
+        $user->shouldReceive('hasRole')
+            ->andReturn($hasRoleReturn);
+
+        return $user;
     }
 
     protected function tearDown(): void

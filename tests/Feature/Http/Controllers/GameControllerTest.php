@@ -2,10 +2,10 @@
 
 namespace Http\Controllers;
 
-use App\Models\Company;
 use App\Models\Game;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Http\Response;
 use Tests\TestCase;
 
 class GameControllerTest extends TestCase
@@ -28,7 +28,7 @@ class GameControllerTest extends TestCase
         $response = $this->get('/api/games');
 
         $response
-            ->assertStatus(200)
+            ->assertStatus(Response::HTTP_OK)
             ->assertJsonCount(5, 'data')
             ->assertJson([
                 'data' => $games->take(5)->toArray(),
@@ -47,7 +47,7 @@ class GameControllerTest extends TestCase
             ->postJson('/api/games', $data->toArray());
 
         $response
-            ->assertStatus(201)
+            ->assertStatus(Response::HTTP_CREATED)
             ->assertJsonFragment($data->toArray());
         $this->assertDatabaseHas('games',
             $data->toArray()
@@ -61,7 +61,7 @@ class GameControllerTest extends TestCase
         $response = $this->getJson('/api/games/' . $game->id);
 
         $response
-            ->assertStatus(200)
+            ->assertStatus(Response::HTTP_OK)
             ->assertJsonFragment($game->toArray());
     }
 
@@ -71,7 +71,6 @@ class GameControllerTest extends TestCase
             ->create(['user_id' => $this->user->id]);
         $gameUpdate = Game::factory()
             ->make([
-                'company_id' => $game->company_id,
                 'user_id' => $this->user->id,
             ])->toArray();
 
@@ -79,7 +78,7 @@ class GameControllerTest extends TestCase
             ->putJson('/api/games/' . $game->id, $gameUpdate);
 
         $response
-            ->assertStatus(200)
+            ->assertStatus(Response::HTTP_OK)
             ->assertJsonFragment($gameUpdate);
         $this->assertDatabaseHas('games',
             $gameUpdate + ['user_id' => $this->user->id]
@@ -93,7 +92,7 @@ class GameControllerTest extends TestCase
         $response = $this->actingAs($this->user)
             ->deleteJson('/api/games/' . $game->id);
 
-        $response->assertStatus(204);
+        $response->assertStatus(Response::HTTP_NO_CONTENT);
         $this->assertDatabaseMissing('games', [
             'id' => $game->id,
         ]);
@@ -106,7 +105,7 @@ class GameControllerTest extends TestCase
         $response = $this->actingAs($this->user)
             ->deleteJson('/api/games/' . $game->id);
 
-        $response->assertStatus(403);
+        $response->assertStatus(Response::HTTP_FORBIDDEN);
         $this->assertDatabaseHas('games', [
             'id' => $game->id,
         ]);

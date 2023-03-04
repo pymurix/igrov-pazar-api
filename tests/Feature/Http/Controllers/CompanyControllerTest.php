@@ -23,13 +23,15 @@ class CompanyControllerTest extends TestCase
 
     public function test_index(): void
     {
-        Company::factory()->count(10)->create();
+        $companies = Company::factory()->count(10)->create();
 
         $response = $this->get('/api/companies');
 
-        $response->assertStatus(Response::HTTP_OK);
-
-        $response->assertJsonCount(5, 'data');
+        $response->assertStatus(Response::HTTP_OK)
+            ->assertJsonCount(5, 'data')
+            ->assertJson([
+                'data' => $companies->take(5)->toArray(),
+            ]);;
     }
 
     public function test_store(): void
@@ -41,7 +43,6 @@ class CompanyControllerTest extends TestCase
             ->post('/api/companies', $companyData);
 
         $response->assertStatus(Response::HTTP_CREATED);
-
         $this->assertDatabaseHas('companies', $companyData);
     }
 
@@ -52,7 +53,6 @@ class CompanyControllerTest extends TestCase
         $response = $this->get('/api/companies/' . $company->id);
 
         $response->assertStatus(Response::HTTP_OK);
-
         $response->assertJson([
             'id' => $company->id,
             'name' => $company->name,
@@ -62,18 +62,16 @@ class CompanyControllerTest extends TestCase
     public function test_update(): void
     {
         $company = Company::factory()->create();
-
-        $companyData = Company::factory()
+        $companyUpdateData = Company::factory()
             ->make()
             ->toArray();
 
         $response = $this
             ->actingAs($this->adminUser)
-            ->put('/api/companies/' . $company->id, $companyData);
+            ->put('/api/companies/' . $company->id, $companyUpdateData);
 
         $response->assertStatus(Response::HTTP_OK);
-
-        $this->assertDatabaseHas('companies', $companyData);
+        $this->assertDatabaseHas('companies', $companyUpdateData);
     }
 
     public function test_destroy(): void
@@ -85,7 +83,6 @@ class CompanyControllerTest extends TestCase
             ->delete('/api/companies/' . $company->id);
 
         $response->assertStatus(Response::HTTP_NO_CONTENT);
-
         $this->assertDatabaseMissing('companies', [
             'id' => $company->id,
         ]);

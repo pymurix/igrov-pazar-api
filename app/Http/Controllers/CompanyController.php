@@ -31,7 +31,8 @@ class CompanyController extends Controller
 
     public function update(UpdateCompanyRequest $request, int $id): JsonResponse
     {
-        $updated = Company::where('id', $id)->update($request->validated());
+        $updated = Company::where('id', $id)
+            ->update($request->validated());
         return response()
             ->json($updated);
     }
