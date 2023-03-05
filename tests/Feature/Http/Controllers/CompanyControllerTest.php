@@ -42,7 +42,8 @@ class CompanyControllerTest extends TestCase
             ->actingAs($this->adminUser)
             ->post('/api/companies', $companyData);
 
-        $response->assertStatus(Response::HTTP_CREATED);
+        $response->assertStatus(Response::HTTP_CREATED)
+            ->assertJsonFragment($companyData);
         $this->assertDatabaseHas('companies', $companyData);
     }
 

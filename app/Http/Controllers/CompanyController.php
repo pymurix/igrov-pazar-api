@@ -20,8 +20,8 @@ class CompanyController extends Controller
 
     public function store(StoreCompanyData $request): JsonResponse
     {
-        Company::create($request->toArray());
-        return response()->json([], Response::HTTP_CREATED);
+        $company = Company::create($request->toArray());
+        return response()->json($company, Response::HTTP_CREATED);
     }
 
     public function show(int $id): JsonResponse
