@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\CompanyController;
 use App\Http\Controllers\GameController as GameController;
+use App\Http\Controllers\OrdersController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -36,3 +37,4 @@ Route::group(['middleware' => ['auth']], function () {
 });
 Route::get('/games/{game}', [GameController::class, 'show']);
 
+Route::get('/orders', [OrdersController::class, 'index']);
