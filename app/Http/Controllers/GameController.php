@@ -3,8 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\Game;
-use App\Http\Requests\StoreGameRequest;
-use App\Http\Requests\UpdateGameRequest;
+use App\Http\Data\StoreGameData;
+use App\Http\Data\UpdateGameData;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
@@ -21,11 +21,11 @@ class GameController extends Controller
         return response()->json($games);
     }
 
-    public function store(StoreGameRequest $request): JsonResponse
+    public function store(StoreGameData $request): JsonResponse
     {
         $game = Game::create(
             array_merge(
-                $request->validated(),
+                $request->toArray(),
                 ['user_id' => Auth::user()->id]
             )
         );
@@ -38,11 +38,11 @@ class GameController extends Controller
         return response()->json($game);
     }
 
-    public function update(UpdateGameRequest $request, Game $game): JsonResponse
+    public function update(UpdateGameData $request, Game $game): JsonResponse
     {
         $this->authorize('write', $game);
 
-        $game = $game->fill($request->validated());
+        $game = $game->fill($request->toArray());
         $game->save();
         return response()->json($game);
     }

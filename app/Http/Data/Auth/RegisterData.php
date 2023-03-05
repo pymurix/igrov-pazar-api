@@ -1,23 +1,23 @@
 <?php
 
-namespace App\Http\Requests\Auth;
+namespace App\Http\Data\Auth;
 
 use App\Models\User;
+use Illuminate\Http\UploadedFile;
 use Illuminate\Validation\Rules\File;
 use Illuminate\Validation\Rules\Password;
 use Spatie\LaravelData\Data;
 
-class RegisterRequest extends Data
+class RegisterData extends Data
 {
     public function __construct(
         public string $firstName,
         public string $lastName,
         public string $email,
         public string $password,
-        public ?\Illuminate\Http\UploadedFile $profileImage
+        public ?UploadedFile $profileImage
     )
     {
-
     }
 
     public static function rules(): array

@@ -3,8 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\Company;
-use App\Http\Requests\StoreCompanyRequest;
-use App\Http\Requests\UpdateCompanyRequest;
+use App\Http\Data\StoreCompanyData;
+use App\Http\Data\UpdateCompanyData;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Response;
 
@@ -18,9 +18,9 @@ class CompanyController extends Controller
         return response()->json($companies);
     }
 
-    public function store(StoreCompanyRequest $request): JsonResponse
+    public function store(StoreCompanyData $request): JsonResponse
     {
-        Company::create($request->validated());
+        Company::create($request->toArray());
         return response()->json([], Response::HTTP_CREATED);
     }
 
@@ -29,10 +29,10 @@ class CompanyController extends Controller
         return response()->json(Company::find($id));
     }
 
-    public function update(UpdateCompanyRequest $request, int $id): JsonResponse
+    public function update(UpdateCompanyData $request, int $id): JsonResponse
     {
         $updated = Company::where('id', $id)
-            ->update($request->validated());
+            ->update($request->toArray());
         return response()
             ->json($updated);
     }

@@ -1,20 +1,30 @@
 <?php
 
-namespace App\Http\Requests;
+namespace App\Http\Data;
 
 use App\Models\Game;
 use Illuminate\Foundation\Http\FormRequest;
+use Spatie\LaravelData\Data;
 
-class StoreGameRequest extends FormRequest
+class StoreGameData extends Data
 {
-    public function rules(): array
+    public function __construct(
+        public string $name,
+        public string $description,
+        public float $price,
+        public int $platform,
+        public int $companyId,
+    )
+    {}
+
+    public static function rules(): array
     {
         return [
             'name' => ['required', 'string', 'max:255'],
             'description' => ['required', 'string'],
             'price' => ['required', 'numeric', 'between:0,9999.99'],
             'platform' => ['required', 'in:' . implode(',', array_values(Game::PLATFORMS))],
-            'company_id' => ['required', 'integer'],
+            'companyId' => ['required', 'integer'],
         ];
     }
 }

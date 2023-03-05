@@ -16,12 +16,12 @@ class RegistrationTest extends TestCase
         $file = UploadedFile::fake()->create('test.png', 2048);
 
         $response = $this->post('/register', [
-            'first_name' => 'Test User',
-            'last_name' => 'Test User last name',
+            'firstName' => 'Test User',
+            'lastName' => 'Test User last name',
             'email' => 'test@example.com',
             'password' => 'password',
             'password_confirmation' => 'password',
-            'profile_image' => $file,
+            'profileImage' => $file,
         ]);
 
         $this->assertAuthenticated();
