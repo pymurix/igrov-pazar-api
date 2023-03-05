@@ -14,20 +14,20 @@ class RegisterRequest extends Data
         public string $lastName,
         public string $email,
         public string $password,
-        public array $profileImage
+        public ?\Illuminate\Http\UploadedFile $profileImage
     )
     {
 
     }
 
-    public function rules(): array
+    public static function rules(): array
     {
         return [
-            'first_name' => ['required', 'string', 'max:255'],
-            'last_name' => ['required', 'string', 'max:255'],
+            'firstName' => ['required', 'string', 'max:255'],
+            'lastName' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:'.User::class],
             'password' => ['required', 'confirmed', Password::defaults()],
-            'profile_image' => ['nullable', File::image()
+            'profileImage' => ['nullable', File::image()
                 ->min(1024)
                 ->max(12 * 1024)]
         ];
