@@ -19,7 +19,7 @@ class GameServiceTest extends TestCase
     public function test_is_game_belongs_to_user_returns_true_if_game_belongs_to_user()
     {
         $game = new Game();
-        $game->user_id = 1;
+        $game->profile_id = 1;
         $userId = 1;
 
         $result = $this->gameService->isGameBelongsToUser($game, $userId);
@@ -30,7 +30,7 @@ class GameServiceTest extends TestCase
     public function test_is_game_belongs_to_user_returns_false_if_game_does_not_belong_to_user()
     {
         $game = new Game();
-        $game->user_id = 2;
+        $game->profile_id = 2;
         $userId = 1;
 
         $result = $this->gameService->isGameBelongsToUser($game, $userId);

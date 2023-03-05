@@ -16,6 +16,6 @@ class GamePolicy
     {
         return $user->hasRole([User::ROLE_ADMIN]) ||
             $this->gameService
-                ->isGameBelongsToUser($game, $user->id);
+                ->isGameBelongsToUser($game, $user->profile_id);
     }
 }

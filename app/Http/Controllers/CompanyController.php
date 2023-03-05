@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Company;
 use App\Http\Data\StoreCompanyData;
 use App\Http\Data\UpdateCompanyData;
+use App\Models\Company;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Response;
 

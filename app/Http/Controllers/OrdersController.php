@@ -2,16 +2,16 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Order;
 use App\Http\Data\StoreOrderData;
 use App\Http\Data\UpdateOrderData;
+use App\Models\Order;
 
 class OrdersController extends Controller
 {
     public function index()
     {
         $orders = Order::join('games', 'orders.game_id', 'games.id')
-            ->join('users', 'orders.user_id', 'users.id')
+            ->join('user_profiles', 'orders.profile_id', 'user_profiles.id')
             ->paginate(5);
 
 

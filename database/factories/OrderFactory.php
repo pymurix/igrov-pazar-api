@@ -3,6 +3,7 @@
 namespace Database\Factories;
 
 use App\Models\Game;
+use App\Models\Profile;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
@@ -14,7 +15,7 @@ class OrderFactory extends Factory
     public function definition(): array
     {
         return [
-            'user_id' => User::factory()->create()->id,
+            'profile_id' => Profile::factory()->create()->id,
             'game_id' => Game::factory()->create()->id,
             'address' => fake()->address(),
         ];

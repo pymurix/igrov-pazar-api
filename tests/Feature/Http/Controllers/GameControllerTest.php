@@ -39,7 +39,7 @@ class GameControllerTest extends TestCase
     {
         $data = Game::factory()->make(
             [
-                'user_id' => $this->user->id,
+                'profile_id' => $this->user->profile()->first()->id,
             ]
         );
 
@@ -68,10 +68,10 @@ class GameControllerTest extends TestCase
     public function test_it_can_update_a_game()
     {
         $game = Game::factory()
-            ->create(['user_id' => $this->user->id]);
+            ->create(['profile_id' => $this->user->profile()->first()->id]);
         $gameUpdate = Game::factory()
             ->make([
-                'user_id' => $this->user->id,
+                'profile_id' => $this->user->profile()->first()->id,
             ])->toArray();
 
         $response = $this->actingAs($this->user)
@@ -81,13 +81,19 @@ class GameControllerTest extends TestCase
             ->assertStatus(Response::HTTP_OK)
             ->assertJsonFragment($gameUpdate);
         $this->assertDatabaseHas('games',
-            $gameUpdate + ['user_id' => $this->user->id]
+            $gameUpdate + ['profile_id' => $this->user->profile()->first()->id]
         );
     }
 
     public function test_it_can_delete_a_game()
     {
-        $game = Game::factory()->create(['user_id' => $this->user->id]);
+        $game = Game::factory()
+            ->create(
+                [
+                    'profile_id' =>
+                    $this->user->profile()->first()->id
+                ]
+            );
 
         $response = $this->actingAs($this->user)
             ->deleteJson('/api/games/' . $game->id);

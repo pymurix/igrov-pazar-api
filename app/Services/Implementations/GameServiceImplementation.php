@@ -7,8 +7,8 @@ use App\Services\GameService;
 
 class GameServiceImplementation implements GameService
 {
-    public function isGameBelongsToUser(Game $game, int $userId): bool
+    public function isGameBelongsToUser(Game $game, int $profileId): bool
     {
-        return $game->user_id === $userId;
+        return $game->profile_id === $profileId;
     }
 }

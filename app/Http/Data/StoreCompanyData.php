@@ -2,8 +2,6 @@
 
 namespace App\Http\Data;
 
-use Illuminate\Foundation\Http\FormRequest;
-use Illuminate\Support\Facades\Auth;
 use Spatie\LaravelData\Data;
 
 class StoreCompanyData extends Data

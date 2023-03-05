@@ -14,7 +14,7 @@ class Game extends Model
         'name',
         'description',
         'price',
-        'user_id',
+        'profile_id',
         'platform',
         'company_id',
     ];

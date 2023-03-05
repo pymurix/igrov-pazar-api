@@ -2,13 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Game;
 use App\Http\Data\StoreGameData;
 use App\Http\Data\UpdateGameData;
+use App\Models\Game;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Session;
 
 class GameController extends Controller
 {
@@ -26,7 +25,7 @@ class GameController extends Controller
         $game = Game::create(
             array_merge(
                 $request->toArray(),
-                ['user_id' => Auth::user()->id]
+                ['profile_id' => Auth::user()->profile_id]
             )
         );
 

@@ -2,6 +2,7 @@
 
 namespace Tests;
 
+use App\Models\Profile;
 use App\Models\User;
 use Illuminate\Foundation\Testing\TestCase as BaseTestCase;
 
@@ -15,6 +16,8 @@ abstract class TestCase extends BaseTestCase
         $user = User::factory()->create();
         $user->assignRole($roles);
         $user->givePermissionTo($permissions);
+
+        Profile::factory()->create(['user_id' => $user->id]);
         return $user;
     }
 }
