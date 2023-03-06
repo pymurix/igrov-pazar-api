@@ -23,10 +23,10 @@ class GameController extends Controller
     public function store(StoreGameData $request): JsonResponse
     {
         $game = Game::create(
-            array_merge(
-                $request->toArray(),
-                ['profile_id' => Auth::user()->profile_id]
-            )
+            [
+                ...$request->toArray(),
+                'profile_id' => Auth::user()->profile_id
+            ]
         );
 
         return response()->json($game, Response::HTTP_CREATED);

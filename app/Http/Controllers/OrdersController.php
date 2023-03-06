@@ -34,7 +34,7 @@ class OrdersController extends Controller
     public function store(StoreOrderData $data)
     {
         $order = Order::create(
-            array_merge($data->toArray(), ['profile_id' => Auth::user()->profile_id])
+            [...$data->toArray(), 'profile_id' => Auth::user()->profile_id]
         );
         return response()->json($order, Response::HTTP_CREATED);
     }
