@@ -3,7 +3,9 @@
 namespace App\Providers;
 
 use App\Models\Game;
+use App\Models\Order;
 use App\Policies\GamePolicy;
+use App\Policies\OrderPolicy;
 use Illuminate\Auth\Notifications\ResetPassword;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
 
@@ -16,6 +18,7 @@ class AuthServiceProvider extends ServiceProvider
      */
     protected $policies = [
         Game::class => GamePolicy::class,
+        Order::class => OrderPolicy::class,
     ];
 
     /**

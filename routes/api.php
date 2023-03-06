@@ -37,4 +37,13 @@ Route::group(['middleware' => ['auth']], function () {
 });
 Route::get('/games/{game}', [GameController::class, 'show']);
 
-Route::get('/orders', [OrdersController::class, 'index']);
+Route::group(['middleware' => ['role:admin']], function () {
+    Route::get('/orders', [OrdersController::class, 'index']);
+    Route::put('/orders/{id}', [OrdersController::class, 'update']);
+    Route::delete('/orders/{id}', [OrdersController::class, 'destroy']);
+});
+Route::group(['middleware' => ['auth']], function () {
+    Route::post('/orders', [OrdersController::class, 'store']);
+    Route::get('/orders/{order}', [OrdersController::class, 'show']);
+});
+

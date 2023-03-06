@@ -17,7 +17,7 @@ abstract class TestCase extends BaseTestCase
         $user->assignRole($roles);
         $user->givePermissionTo($permissions);
 
-        Profile::factory()->create(['user_id' => $user->id]);
+        $profile = Profile::factory()->create(['user_id' => $user->id]);
         return $user;
     }
 }

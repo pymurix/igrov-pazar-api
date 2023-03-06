@@ -1,8 +1,7 @@
 <?php
 
-namespace Tests\Feature\Auth;
+namespace Http\Controllers\Auth;
 
-use App\Models\Profile;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Http\UploadedFile;
 use Tests\TestCase;
