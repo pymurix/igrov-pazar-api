@@ -6,6 +6,7 @@ use App\Models\Company;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Http\Response;
+use Illuminate\Support\Collection;
 use Tests\TestCase;
 
 class CompanyControllerTest extends TestCase
@@ -19,7 +20,7 @@ class CompanyControllerTest extends TestCase
         parent::setUp();
         $this->adminUser = $this->createUser([User::ROLE_ADMIN]);
     }
-    
+
     public function test_index(): void
     {
         $companies = Company::factory()->count(10)->create();
@@ -31,6 +32,24 @@ class CompanyControllerTest extends TestCase
             ->assertJson([
                 'data' => $companies->take(Company::RECORDS_PER_PAGE)->toArray(),
             ]);;
+    }
+
+    public function test_index_with_filter_and_sort()
+    {
+        $dataToAssert = new Collection([
+            Company::factory()->create(['name' => 'joz'])->toArray(),
+            Company::factory()->create(['name' => 'job'])->toArray(),
+            Company::factory()->create(['name' => 'joa'])->toArray(),
+            Company::factory()->create(['name' => 'joc'])->toArray(),
+        ]);
+        Company::factory()->create(['name' => 'jqqq']);
+        $sorted = $dataToAssert->sortByDesc('name');
+
+        $query = http_build_query(['filter' => ['name' => ['like' => '%jo%']], 'sort' => ['name' => 'desc']]);
+        $response = $this->get('/api/companies?' . $query);
+
+        $response->assertJsonCount(4, 'data')
+            ->assertJsonFragment(['data' => $sorted->toArray()]);
     }
 
     public function test_store(): void

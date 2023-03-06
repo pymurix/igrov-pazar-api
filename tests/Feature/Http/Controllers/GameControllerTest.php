@@ -6,6 +6,7 @@ use App\Models\Game;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Http\Response;
+use Illuminate\Support\Collection;
 use Tests\TestCase;
 
 class GameControllerTest extends TestCase
@@ -32,6 +33,24 @@ class GameControllerTest extends TestCase
             ->assertJson([
                 'data' => $games->take(Game::RECORDS_PER_PAGE)->toArray(),
             ]);
+    }
+
+    public function test_index_with_filter_and_sort()
+    {
+        $dataToAssert = new Collection([
+            Game::factory()->create(['name' => 'jaz', 'platform' => 3])->toArray(),
+            Game::factory()->create(['name' => 'jab', 'platform' => 3])->toArray(),
+            Game::factory()->create(['name' => 'jaa', 'platform' => 3])->toArray(),
+            Game::factory()->create(['name' => 'jac', 'platform' => 3])->toArray(),
+        ]);
+        Game::factory()->create(['name' => 'jaj', 'platform' => 4]);
+        $sorted = $dataToAssert->sortByDesc('name');
+
+        $query = http_build_query(['filter' => ['name' => ['like' => '%ja%'], 'platform' => 3], 'sort' => ['name' => 'desc']]);
+        $response = $this->get('/api/games?' . $query);
+
+        $response->assertJsonCount(4, 'data')
+            ->assertJsonFragment(['data' => $sorted->toArray()]);
     }
 
     public function test_it_can_create_a_game()
