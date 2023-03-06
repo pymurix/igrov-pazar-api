@@ -10,6 +10,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 class Game extends Model
 {
     use HasFactory;
+
     protected $fillable = [
         'name',
         'description',
@@ -19,6 +20,7 @@ class Game extends Model
         'company_id',
     ];
 
+    const RECORDS_PER_PAGE = 5;
     const PLATFORMS = [
         'Playstation1' => 1,
         'Playstation2' => 2,

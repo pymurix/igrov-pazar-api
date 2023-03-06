@@ -15,7 +15,7 @@ class GameController extends Controller
     {
         $games = Game::filterable(request('filter', []))
             ->sortable(request('sort', []))
-            ->paginate(5);
+            ->paginate(Game::RECORDS_PER_PAGE);
 
         return response()->json($games);
     }

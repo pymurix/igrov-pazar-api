@@ -18,6 +18,8 @@ class Order extends Model
         'game_id',
     ];
 
+    const RECORDS_PER_PAGE = 5;
+
     public function game(): BelongsTo
     {
         return $this->belongsTo(Game::class);

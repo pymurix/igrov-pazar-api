@@ -25,7 +25,7 @@ class OrdersController extends Controller
             ->join('user_profiles', 'user_profiles.id', 'orders.profile_id')
             ->filterable(request('filter', []))
             ->sortable(request('sort', []))
-            ->paginate(5);
+            ->paginate(Order::RECORDS_PER_PAGE);
 
 
         return response()->json($orders);

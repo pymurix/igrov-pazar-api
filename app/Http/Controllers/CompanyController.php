@@ -14,7 +14,7 @@ class CompanyController extends Controller
     {
         $companies = Company::filterable(request("filter", []))
             ->sortable(request('sort', []))
-            ->paginate(5);
+            ->paginate(Company::RECORDS_PER_PAGE);
         return response()->json($companies);
     }
 

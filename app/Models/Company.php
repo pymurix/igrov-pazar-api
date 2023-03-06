@@ -15,6 +15,8 @@ class Company extends Model
 {
     use HasFactory;
 
+    const RECORDS_PER_PAGE = 5;
+
     public $timestamps = false;
 
     protected $fillable = [
