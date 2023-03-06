@@ -19,7 +19,7 @@ class CompanyControllerTest extends TestCase
         parent::setUp();
         $this->adminUser = $this->createUser([User::ROLE_ADMIN]);
     }
-
+    
     public function test_index(): void
     {
         $companies = Company::factory()->count(10)->create();

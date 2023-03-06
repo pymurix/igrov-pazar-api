@@ -63,14 +63,4 @@ class User extends Authenticatable
     {
         return $this->hasOne(Profile::class);
     }
-
-    public function games(): HasMany
-    {
-        return $this->hasMany(Game::class);
-    }
-
-    public function orders(): BelongsToMany
-    {
-        return $this->belongsToMany(Order::class);
-    }
 }

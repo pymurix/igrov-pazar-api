@@ -25,8 +25,8 @@ class Order extends Model
         return $this->belongsTo(Game::class);
     }
 
-    public function users(): HasMany
+    public function profile(): BelongsTo
     {
-        return $this->hasMany(User::class);
+        return $this->belongsTo(Profile::class);
     }
 }
