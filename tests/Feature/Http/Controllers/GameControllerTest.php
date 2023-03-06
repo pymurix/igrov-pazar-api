@@ -17,7 +17,6 @@ class GameControllerTest extends TestCase
     protected function setUp(): void
     {
         parent::setUp();
-
         $this->user = $this->createUser();
     }
 
@@ -29,9 +28,9 @@ class GameControllerTest extends TestCase
 
         $response
             ->assertStatus(Response::HTTP_OK)
-            ->assertJsonCount(5, 'data')
+            ->assertJsonCount(Game::RECORDS_PER_PAGE, 'data')
             ->assertJson([
-                'data' => $games->take(5)->toArray(),
+                'data' => $games->take(Game::RECORDS_PER_PAGE)->toArray(),
             ]);
     }
 

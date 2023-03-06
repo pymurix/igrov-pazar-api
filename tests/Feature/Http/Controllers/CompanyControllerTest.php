@@ -17,7 +17,6 @@ class CompanyControllerTest extends TestCase
     protected function setUp(): void
     {
         parent::setUp();
-
         $this->adminUser = $this->createUser([User::ROLE_ADMIN]);
     }
 
@@ -28,9 +27,9 @@ class CompanyControllerTest extends TestCase
         $response = $this->get('/api/companies');
 
         $response->assertStatus(Response::HTTP_OK)
-            ->assertJsonCount(5, 'data')
+            ->assertJsonCount(Company::RECORDS_PER_PAGE, 'data')
             ->assertJson([
-                'data' => $companies->take(5)->toArray(),
+                'data' => $companies->take(Company::RECORDS_PER_PAGE)->toArray(),
             ]);;
     }
 

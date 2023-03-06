@@ -5,7 +5,6 @@ namespace Database\Factories;
 use App\Models\Company;
 use App\Models\Game;
 use App\Models\Profile;
-use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 class GameFactory extends Factory

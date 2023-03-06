@@ -34,8 +34,9 @@ class OrderControllerTest extends TestCase
             ->get('/api/orders');
 
         $response->assertOk()
+            ->assertJsonCount(Order::RECORDS_PER_PAGE, 'data')
             ->assertJsonFragment(
-                ['data' => $assertData->take(5)->toArray()]
+                ['data' => $assertData->take(Order::RECORDS_PER_PAGE)->toArray()]
             );
     }
 
