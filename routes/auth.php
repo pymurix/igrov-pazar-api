@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Auth\AuthenticatedSessionController;
+use App\Http\Controllers\Auth\AuthenticatedTokenController;
 use App\Http\Controllers\Auth\EmailVerificationNotificationController;
 use App\Http\Controllers\Auth\NewPasswordController;
 use App\Http\Controllers\Auth\PasswordResetLinkController;
@@ -35,3 +36,11 @@ Route::post('/email/verification-notification', [EmailVerificationNotificationCo
 Route::post('/logout', [AuthenticatedSessionController::class, 'destroy'])
                 ->middleware('auth')
                 ->name('logout');
+
+Route::post('/mobile/login', [AuthenticatedTokenController::class, 'store'])
+    ->middleware('guest')
+    ->name('mobile.login');
+
+Route::post('/mobile/logout', [AuthenticatedTokenController::class, 'destroy'])
+    ->middleware('guest')
+    ->name('mobile.login');

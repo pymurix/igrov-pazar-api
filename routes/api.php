@@ -30,7 +30,7 @@ Route::group(['middleware' => ['role:admin']], function () {
 Route::get('/companies/{id}', [CompanyController::class, 'show']);
 
 Route::get('/games', [GameController::class, 'index']);
-Route::group(['middleware' => ['auth']], function () {
+Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::post('/games', [GameController::class, 'store']);
     Route::put('/games/{game}', [GameController::class, 'update']);
     Route::delete('/games/{game}', [GameController::class, 'destroy']);
@@ -42,7 +42,7 @@ Route::group(['middleware' => ['role:admin']], function () {
     Route::put('/orders/{id}', [OrdersController::class, 'update']);
     Route::delete('/orders/{id}', [OrdersController::class, 'destroy']);
 });
-Route::group(['middleware' => ['auth']], function () {
+Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::post('/orders', [OrdersController::class, 'store']);
     Route::get('/orders/{order}', [OrdersController::class, 'show']);
 });
