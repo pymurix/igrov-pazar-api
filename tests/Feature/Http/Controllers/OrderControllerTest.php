@@ -62,9 +62,10 @@ class OrderControllerTest extends TestCase
     public function test_can_update_order()
     {
         $data = Order::factory()->create();
-        $dataToUpdate = Order::factory()->create([
+        $dataToUpdate = Order::factory()->make([
             'profile_id' => $data->profile_id,
             'game_id' => $data->game_id,
+            'address' => 'new address',
         ])->toArray();
 
         $response = $this
