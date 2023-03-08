@@ -2,10 +2,13 @@
 
 namespace Tests\Feature\Http\Controllers;
 
+use App\Events\OrderAdded;
+use App\Models\Game;
 use App\Models\Order;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\Event;
 use Tests\TestCase;
 
 class OrderControllerTest extends TestCase
@@ -41,17 +44,19 @@ class OrderControllerTest extends TestCase
 
     public function test_can_add_order()
     {
-        $data = Order::factory()->make(
+        $order = Order::factory()->make(
             ['profile_id' => $this->user->profile()->first()->id]
         )->toArray();
+        Event::fake();
 
         $response = $this
             ->actingAs($this->user)
-            ->post('/api/orders', $data);
+            ->post('/api/orders', $order);
 
         $response->assertCreated()
-            ->assertJsonFragment($data);
-        $this->assertDatabaseHas(Order::class, $data);
+            ->assertJsonFragment($order);
+        $this->assertDatabaseHas(Order::class, $order);
+        Event::assertDispatched(OrderAdded::class);
     }
 
     public function test_can_update_order()

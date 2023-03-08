@@ -18,6 +18,15 @@ class Game extends Model
         'profile_id',
         'platform',
         'company_id',
+        'is_bought',
+    ];
+
+    protected $attributes = [
+        'is_bought' => false,
+    ];
+
+    protected $casts = [
+        'is_bought' => 'boolean'
     ];
 
     const RECORDS_PER_PAGE = 5;

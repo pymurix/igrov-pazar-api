@@ -28,7 +28,6 @@ class GameController extends Controller
                 'profile_id' => Auth::user()->profile_id
             ]
         );
-
         return response()->json($game, Response::HTTP_CREATED);
     }
 

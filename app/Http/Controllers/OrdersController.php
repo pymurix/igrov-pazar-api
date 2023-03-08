@@ -2,11 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\OrderAdded;
 use App\Http\Data\StoreOrderData;
 use App\Http\Data\UpdateOrderData;
 use App\Models\Order;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Event;
 
 class OrdersController extends Controller
 {
@@ -34,8 +36,12 @@ class OrdersController extends Controller
     public function store(StoreOrderData $data)
     {
         $order = Order::create(
-            [...$data->toArray(), 'profile_id' => Auth::user()->profile_id]
+            [
+                ...$data->toArray(),
+                'profile_id' => Auth::user()->profile_id
+            ]
         );
+        Event::dispatch(new OrderAdded($order));
         return response()->json($order, Response::HTTP_CREATED);
     }
 

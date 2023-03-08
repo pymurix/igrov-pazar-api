@@ -18,6 +18,7 @@ class GameFactory extends Factory
             'profile_id' => Profile::factory()->create()->id,
             'platform' => fake()->randomElement(array_values(Game::PLATFORMS)),
             'company_id' => Company::factory()->create()->id,
+            'is_bought' => false,
         ];
     }
 }
