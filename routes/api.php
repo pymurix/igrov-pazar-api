@@ -47,3 +47,4 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::get('/orders/{order}', [OrdersController::class, 'show']);
 });
 
+require __DIR__.'/auth.php';

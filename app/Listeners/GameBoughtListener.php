@@ -18,18 +18,8 @@ class GameBoughtListener implements ShouldQueue
         $event->order->game()->first()->update(['is_bought' => true]);
     }
 
-    public function viaConnection(): string
-    {
-        return 'sync';
-    }
-
     public function viaQueue(): string
     {
         return 'listeners';
-    }
-
-    public function shouldQueue(OrderAdded $event): bool
-    {
-        return Config::get('app.env') === 'production';
     }
 }
