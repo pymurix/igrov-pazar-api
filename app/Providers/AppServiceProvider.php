@@ -2,6 +2,8 @@
 
 namespace App\Providers;
 
+use App\Repositories\CacheDecorators\OrderRepositoryCacheDecorator;
+use App\Repositories\OrderRepository;
 use App\Services\Auth\RegisterService;
 use App\Services\GameService;
 use App\Services\Implementations\Auth\RegisterServiceImplementation;
@@ -18,6 +20,13 @@ class AppServiceProvider extends ServiceProvider
     {
         $this->app->bind(GameService::class,GameServiceImplementation::class);
         $this->app->bind(RegisterService::class, RegisterServiceImplementation::class);
+
+        $this->app->bind(OrderRepository::class, function ($app) {
+            return new OrderRepositoryCacheDecorator(
+                new \App\Repositories\Implementations\OrderRepository()
+            );
+        });
+
 
         $this->app->register(QueryBuilderMacroServiceProvider::class);
     }
