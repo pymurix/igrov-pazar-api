@@ -15,7 +15,7 @@ class OrderRepositoryCacheDecorator extends RepositoryCacheDecorator implements 
 
     public function allWithFiltersAndPagination(array $filters): LengthAwarePaginator
     {
-        return Cache::remember("{$this->getCacheBaseKey()}.all." . json_encode($filters), 3600, function () use ($filters) {
+        return Cache::tags([$this->getCacheBaseKey(), 'all'])->remember("{$this->getCacheBaseKey()}.all." . json_encode($filters), 60, function () use ($filters) {
             return $this->orderRepository->allWithFiltersAndPagination($filters);
         });
     }

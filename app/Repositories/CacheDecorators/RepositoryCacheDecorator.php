@@ -15,7 +15,7 @@ abstract class RepositoryCacheDecorator
 
     public function all(): Collection
     {
-        return Cache::remember("{$this->getCacheBaseKey()}.all", 3600, function () {
+        return Cache::tags([$this->getCacheBaseKey(), 'all'])->remember("{$this->getCacheBaseKey()}.all", 60, function () {
             return $this->repository->all();
         });
     }
@@ -23,13 +23,13 @@ abstract class RepositoryCacheDecorator
     public function store(array $data): Model
     {
         $model = $this->repository->store($data);
-        Cache::delete("{$this->getCacheBaseKey()}.all*");
+        Cache::tags([$this->getCacheBaseKey(), 'all'])->flush();
         return $model;
     }
 
     public function show(int $id): Model
     {
-        return Cache::remember("{$this->getCacheBaseKey()}.{$id}", 3600, function () use ($id) {
+        return Cache::remember("{$this->getCacheBaseKey()}.{$id}", 60, function () use ($id) {
             return $this->repository->show($id);
         });
     }
@@ -38,6 +38,7 @@ abstract class RepositoryCacheDecorator
     {
         $updated = $this->repository->update($id, $data);
         Cache::delete("{$this->getCacheBaseKey()}.{$id}");
+        Cache::tags([$this->getCacheBaseKey(), 'all'])->flush();
         return $updated;
     }
 
@@ -45,6 +46,7 @@ abstract class RepositoryCacheDecorator
     {
         $deleted = $this->repository->destroy($id);
         Cache::delete("{$this->getCacheBaseKey()}.{$id}");
+        Cache::tags([$this->getCacheBaseKey(), 'all'])->flush();
         return $deleted;
     }
 

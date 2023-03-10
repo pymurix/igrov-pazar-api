@@ -9,6 +9,6 @@ class OrderPolicy
 {
     public function orderBelongsToUser(User $user, Order $order): bool
     {
-        return $user->profile_id === $order->profile_id;
+        return $user->hasRole(User::ROLE_ADMIN) || $user->profile_id === $order->profile_id;
     }
 }
