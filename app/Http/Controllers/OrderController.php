@@ -18,7 +18,7 @@ class OrderController extends Controller
 
     public function index()
     {
-        $orders = $this->orderRepository->all(request()->all());
+        $orders = $this->orderRepository->allWithFiltersAndPagination(request()->all());
         return response()->json($orders);
     }
 

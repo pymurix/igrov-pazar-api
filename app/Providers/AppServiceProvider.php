@@ -8,6 +8,7 @@ use App\Services\Auth\RegisterService;
 use App\Services\GameService;
 use App\Services\Implementations\Auth\RegisterServiceImplementation;
 use App\Services\Implementations\GameServiceImplementation;
+use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\ServiceProvider;
 
@@ -21,13 +22,9 @@ class AppServiceProvider extends ServiceProvider
         $this->app->bind(GameService::class,GameServiceImplementation::class);
         $this->app->bind(RegisterService::class, RegisterServiceImplementation::class);
 
-        $this->app->bind(OrderRepository::class, function ($app) {
-            return new OrderRepositoryCacheDecorator(
-                new \App\Repositories\Implementations\OrderRepository()
-            );
-        });
 
 
+        $this->app->register(RepositoryServiceProvider::class);
         $this->app->register(QueryBuilderMacroServiceProvider::class);
     }
 

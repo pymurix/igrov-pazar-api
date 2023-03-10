@@ -5,10 +5,16 @@ namespace App\Repositories\Implementations;
 use App\Models\Order;
 use Illuminate\Pagination\LengthAwarePaginator;
 
-class OrderRepository implements \App\Repositories\OrderRepository
+class OrderRepository extends Repository implements \App\Repositories\OrderRepository
 {
+    protected $model;
 
-    public function all(array $filters): LengthAwarePaginator
+    public function __construct(Order $order)
+    {
+        $this->model = $order;
+    }
+
+    public function allWithFiltersAndPagination(array $filters): LengthAwarePaginator
     {
         return Order::select(
             [
@@ -24,25 +30,5 @@ class OrderRepository implements \App\Repositories\OrderRepository
             ->filterable($filters['filter'] ?? [])
             ->sortable($filters['sort'] ?? [])
             ->paginate(Order::RECORDS_PER_PAGE);
-    }
-
-    public function store(array $data): Order
-    {
-        return Order::create($data);
-    }
-
-    public function show(int $id): Order
-    {
-        return Order::find($id);
-    }
-
-    public function update(int $id, array $data): bool
-    {
-        return Order::where('id', $id)->update($data);
-    }
-
-    public function destroy(int $id): bool
-    {
-        return Order::where('id', $id)->delete();
     }
 }

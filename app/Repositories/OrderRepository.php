@@ -2,19 +2,9 @@
 
 namespace App\Repositories;
 
-use App\Models\Order;
 use Illuminate\Pagination\LengthAwarePaginator;
-use Illuminate\Support\Collection;
 
-interface OrderRepository
+interface OrderRepository extends Repository
 {
-    public function all(array $filters): LengthAwarePaginator;
-
-    public function store(array $data): Order;
-
-    public function show(int $id): Order;
-
-    public function update(int $id, array $data): bool;
-
-    public function destroy(int $id): bool;
+    public function allWithFiltersAndPagination(array $filters): LengthAwarePaginator;
 }
