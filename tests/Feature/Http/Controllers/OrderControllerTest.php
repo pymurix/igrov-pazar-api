@@ -109,6 +109,7 @@ class OrderControllerTest extends TestCase
         foreach ($data as $element)
         {
             $returnElement = [
+                'id' => $element->id,
                 'game_id' => $element->game_id,
                 'game_name' => $element->game()->first()->name,
                 'game_price' => $element->game()->first()->price,

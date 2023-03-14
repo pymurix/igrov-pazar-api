@@ -7,17 +7,16 @@ use Illuminate\Pagination\LengthAwarePaginator;
 
 class OrderRepository extends Repository implements \App\Repositories\OrderRepository
 {
-    protected $model;
-
     public function __construct(Order $order)
     {
-        $this->model = $order;
+        parent::__construct($order);
     }
 
     public function allWithFiltersAndPagination(array $filters): LengthAwarePaginator
     {
         return Order::select(
             [
+                'orders.id as id',
                 'games.id as game_id',
                 'games.name as game_name',
                 'games.price as game_price',

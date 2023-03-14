@@ -36,7 +36,7 @@ class OrderController extends Controller
     public function show(int $id)
     {
         $order = $this->orderRepository->show($id);
-        $this->authorize('orderBelongsToUser', $order);
+        $this->authorize('userCanSeeOrder', $order);
         return response()->json($order);
     }
 

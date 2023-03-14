@@ -2,12 +2,18 @@
 
 namespace App\Repositories\Implementations;
 
+use App\Models\Order;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Collection;
 
 abstract class Repository
 {
     protected $model;
+
+    public function __construct(Model $order)
+    {
+        $this->model = $order;
+    }
 
     public function all(): Collection
     {
