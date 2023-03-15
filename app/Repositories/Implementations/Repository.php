@@ -2,7 +2,6 @@
 
 namespace App\Repositories\Implementations;
 
-use App\Models\Order;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Collection;
 

@@ -11,24 +11,32 @@ class RegisterServiceImplementation implements \App\Services\Auth\RegisterServic
 {
     public function register(RegisterData $register): User
     {
-        $user = User::create([
+        $user = $this->createUser($register);
+        $this->createProfile($register, $user->id);
+        return $user;
+    }
+
+    private function createUser(RegisterData $register): User
+    {
+        return User::create([
             'name' => $register->firstName,
             'email' => $register->email,
             'password' => Hash::make($register->password),
         ]);
+    }
 
+    private function createProfile(RegisterData $register, int $userId): Profile
+    {
         $hasPhoto = $register->profileImage != null;
         if ($hasPhoto) {
             $path = $register->profileImage->store('images');
         }
 
-        Profile::create([
-            'user_id' => $user->id,
+        return Profile::create([
+            'user_id' => $userId,
             'first_name' => $register->firstName,
             'last_name' => $register->lastName,
             'profile_image' => $hasPhoto ? $path : null,
         ]);
-
-        return $user;
     }
 }
