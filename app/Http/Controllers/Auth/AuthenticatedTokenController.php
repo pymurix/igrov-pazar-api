@@ -4,26 +4,16 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use App\Http\Data\Auth\LoginRequest;
-use App\Http\Data\Auth\MobileLoginRequest;
-use App\Models\User;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Hash;
-use Illuminate\Validation\ValidationException;
 
 class AuthenticatedTokenController extends Controller
 {
-    public function store(MobileLoginRequest $request): JsonResponse
+    public function store(LoginRequest $request): JsonResponse
     {
-        $user = User::where('email', $request->email)->first();
+        $request->authenticate();
 
-        if (!$user || !Hash::check($request->password, $user->password)) {
-            throw ValidationException::withMessages([
-                'email' => ['The provided credentials are incorrect.'],
-            ]);
-        }
-
-        $token = $user->createToken($request->deviceName)
+        $token = Auth::user()->createToken($request->input('device_name'))
             ->plainTextToken;
 
         return response()->json(['access_token' => $token]);
